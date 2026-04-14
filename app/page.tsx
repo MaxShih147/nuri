@@ -33,8 +33,8 @@ export default function DashboardPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-neutral-100">
-                <Library size={20} className="text-neutral-600" />
+              <div className="p-2 rounded-lg bg-lavender-100">
+                <Library size={20} className="text-lavender-500" />
               </div>
               <div>
                 <p className="text-2xl font-semibold">{loaded ? totalCount : "—"}</p>
@@ -46,8 +46,8 @@ export default function DashboardPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-neutral-100">
-                <CheckCircle2 size={20} className="text-neutral-600" />
+              <div className="p-2 rounded-lg bg-lavender-100">
+                <CheckCircle2 size={20} className="text-lavender-500" />
               </div>
               <div>
                 <p className="text-2xl font-semibold">{loaded ? learnedCount : "—"}</p>
@@ -59,8 +59,8 @@ export default function DashboardPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-neutral-100">
-                <Heart size={20} className="text-neutral-600" />
+              <div className="p-2 rounded-lg bg-lavender-100">
+                <Heart size={20} className="text-lavender-500" />
               </div>
               <div>
                 <p className="text-2xl font-semibold">{loaded ? favoriteCount : "—"}</p>
@@ -109,8 +109,8 @@ export default function DashboardPage() {
             <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-neutral-100">
-                    <Icon size={20} className="text-neutral-600" />
+                  <div className="p-2 rounded-lg bg-lavender-100">
+                    <Icon size={20} className="text-lavender-500" />
                   </div>
                   <div>
                     <p className="font-medium">{label}</p>
