@@ -32,28 +32,28 @@ export default function ProgressPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6 text-center">
-            <Library size={20} className="mx-auto text-neutral-400 mb-2" />
+            <Library size={20} className="mx-auto text-violet-400 mb-2" />
             <p className="text-2xl font-semibold">{totalCount}</p>
             <p className="text-xs text-neutral-500 mt-1">總單字數</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6 text-center">
-            <CheckCircle2 size={20} className="mx-auto text-neutral-400 mb-2" />
+            <CheckCircle2 size={20} className="mx-auto text-violet-400 mb-2" />
             <p className="text-2xl font-semibold">{learnedCount}</p>
             <p className="text-xs text-neutral-500 mt-1">已學會</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6 text-center">
-            <Heart size={20} className="mx-auto text-neutral-400 mb-2" />
+            <Heart size={20} className="mx-auto text-violet-400 mb-2" />
             <p className="text-2xl font-semibold">{favoriteCount}</p>
             <p className="text-xs text-neutral-500 mt-1">收藏</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6 text-center">
-            <BarChart3 size={20} className="mx-auto text-neutral-400 mb-2" />
+            <BarChart3 size={20} className="mx-auto text-violet-400 mb-2" />
             <p className="text-2xl font-semibold">{avgFamiliarity}</p>
             <p className="text-xs text-neutral-500 mt-1">平均熟悉度</p>
           </CardContent>
@@ -74,9 +74,9 @@ export default function ProgressPage() {
                 return (
                   <div key={level} className="flex items-center gap-3">
                     <span className="text-sm text-neutral-500 w-6 text-right">{level}</span>
-                    <div className="flex-1 h-5 bg-neutral-100 rounded-full overflow-hidden">
+                    <div className="flex-1 h-5 bg-violet-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-neutral-300 rounded-full transition-all"
+                        className="h-full bg-violet-300 rounded-full transition-all"
                         style={{ width: `${pct}%` }}
                       />
                     </div>

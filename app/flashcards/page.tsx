@@ -182,9 +182,9 @@ export default function FlashcardsPage() {
       </div>
 
       {/* Progress bar */}
-      <div className="w-full h-1 bg-neutral-100 rounded-full overflow-hidden">
+      <div className="w-full h-1 bg-violet-100 rounded-full overflow-hidden">
         <div
-          className="h-full bg-neutral-900 transition-all duration-300"
+          className="h-full bg-violet-600 transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / studyItems.length) * 100}%` }}
         />
       </div>

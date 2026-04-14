@@ -106,7 +106,7 @@ export default function VocabularyPage() {
           <div className="absolute z-40 mt-1 w-full sm:w-80 bg-white border rounded-lg shadow-lg py-1 max-h-96 overflow-y-auto">
             <button
               onClick={() => { setFilterUnit("all"); setShowUnitPicker(false); }}
-              className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors ${filterUnit === "all" ? "bg-neutral-100 font-medium" : ""}`}
+              className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors ${filterUnit === "all" ? "bg-violet-100 font-medium" : ""}`}
             >
               全部單元（{items.length} 字）
             </button>
@@ -118,7 +118,7 @@ export default function VocabularyPage() {
                 <button
                   key={unit.id}
                   onClick={() => { setFilterUnit(unitKey); setShowUnitPicker(false); }}
-                  className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors ${filterUnit === unitKey ? "bg-neutral-100 font-medium" : ""}`}
+                  className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors ${filterUnit === unitKey ? "bg-violet-100 font-medium" : ""}`}
                 >
                   <div className="flex items-center justify-between">
                     <span>{unit.name}：{unit.description}</span>
@@ -149,8 +149,8 @@ export default function VocabularyPage() {
               onClick={() => setFilterDifficulty(d)}
               className={`px-3 py-1.5 rounded-md text-sm whitespace-nowrap transition-colors ${
                 filterDifficulty === d
-                  ? "bg-neutral-900 text-white"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                  ? "bg-violet-600 text-white"
+                  : "bg-violet-50 text-violet-600 hover:bg-violet-100"
               }`}
             >
               {d === "all" ? "全部" : d === "easy" ? "簡單" : d === "medium" ? "中等" : "困難"}
