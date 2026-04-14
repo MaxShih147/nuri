@@ -33,7 +33,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-14">
           <Link href="/" className="flex items-center gap-1.5">
             <Image src="/logo.png" alt="Nuri" width={32} height={26} className="h-6 w-auto" />
-            <span className="text-lg font-semibold tracking-tight text-lavender-500">Nuri</span>
+            <span className="text-lg font-semibold tracking-tight text-[#a379d8]">Nuri</span>
           </Link>
           <div className="hidden md:flex items-center gap-1">
             {navItems.map(({ href, label, icon: Icon }) => (
