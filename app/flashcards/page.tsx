@@ -1,19 +1,29 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { RotateCcw, Heart, ThumbsUp, HelpCircle, Volume2 } from "lucide-react";
+import { useState, useCallback, useMemo } from "react";
+import { RotateCcw, Heart, ThumbsUp, HelpCircle, Volume2, ChevronDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useVocabulary } from "@/hooks/useVocabulary";
 import { speakKorean } from "@/lib/speech";
+import { units } from "@/data/vocabulary";
 
 export default function FlashcardsPage() {
   const { items, loaded, toggleFavorite, updateFamiliarity } = useVocabulary();
+  const [selectedUnit, setSelectedUnit] = useState<string>("all");
+  const [showUnitPicker, setShowUnitPicker] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [started, setStarted] = useState(false);
 
-  const studyItems = items.filter((i) => !i.learned);
+  const studyItems = useMemo(() => {
+    const pool = selectedUnit === "all"
+      ? items
+      : items.filter((i) => i.subUnit === selectedUnit);
+    return pool.filter((i) => !i.learned);
+  }, [items, selectedUnit]);
+
   const currentItem = studyItems[currentIndex];
 
   const goNext = useCallback(() => {
@@ -35,13 +45,83 @@ export default function FlashcardsPage() {
     goNext();
   };
 
+  const startPractice = (unitKey: string) => {
+    setSelectedUnit(unitKey);
+    setCurrentIndex(0);
+    setFlipped(false);
+    setFinished(false);
+    setStarted(true);
+    setShowUnitPicker(false);
+  };
+
   const restart = () => {
     setCurrentIndex(0);
     setFlipped(false);
     setFinished(false);
   };
 
+  const backToSelect = () => {
+    setStarted(false);
+    setFinished(false);
+    setCurrentIndex(0);
+  };
+
   if (!loaded) return null;
+
+  // Unit selection screen
+  if (!started) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">閃卡練習</h1>
+          <p className="text-neutral-500 mt-1">選擇要練習的單元</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => startPractice("all")}
+          >
+            <CardContent className="py-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">全部單元</p>
+                  <p className="text-xs text-neutral-500 mt-0.5">
+                    {items.filter((i) => !i.learned).length} 個待學習
+                  </p>
+                </div>
+                <span className="text-sm text-neutral-400">{items.length} 字</span>
+              </div>
+            </CardContent>
+          </Card>
+          {units.map((unit) => {
+            const unitKey = `${unit.name}：${unit.description}`;
+            const unitItems = items.filter((i) => i.subUnit === unitKey);
+            const unlearnedCount = unitItems.filter((i) => !i.learned).length;
+            return (
+              <Card
+                key={unit.id}
+                className={`cursor-pointer hover:shadow-md transition-shadow ${unlearnedCount === 0 ? "opacity-50" : ""}`}
+                onClick={() => unlearnedCount > 0 && startPractice(unitKey)}
+              >
+                <CardContent className="py-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">{unit.name}</p>
+                      <p className="text-xs text-neutral-500 mt-0.5">{unit.description}</p>
+                    </div>
+                    <span className="text-xs text-neutral-400">
+                      {unlearnedCount > 0 ? `${unlearnedCount} 待學` : "已完成"}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 
   if (studyItems.length === 0) {
     return (
@@ -50,8 +130,9 @@ export default function FlashcardsPage() {
           <h1 className="text-2xl font-semibold tracking-tight">閃卡練習</h1>
           <p className="text-neutral-500 mt-1">翻牌記憶韓語單字</p>
         </div>
-        <div className="text-center py-16 text-neutral-400">
-          沒有可練習的單字。請先到單字本新增單字。
+        <div className="text-center py-16 space-y-4 text-neutral-400">
+          <p>這個單元的單字都學會了！</p>
+          <Button variant="outline" onClick={backToSelect}>選擇其他單元</Button>
         </div>
       </div>
     );
@@ -66,10 +147,15 @@ export default function FlashcardsPage() {
         <div className="text-center py-16 space-y-4">
           <p className="text-lg font-medium">練習完成！</p>
           <p className="text-neutral-500">你已經複習了 {studyItems.length} 個單字</p>
-          <Button onClick={restart} variant="outline">
-            <RotateCcw size={16} className="mr-1" />
-            重新開始
-          </Button>
+          <div className="flex justify-center gap-3">
+            <Button onClick={restart} variant="outline">
+              <RotateCcw size={16} className="mr-1" />
+              重新開始
+            </Button>
+            <Button onClick={backToSelect} variant="outline">
+              選擇其他單元
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -84,10 +170,15 @@ export default function FlashcardsPage() {
             {currentIndex + 1} / {studyItems.length}
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={restart}>
-          <RotateCcw size={14} className="mr-1" />
-          重新開始
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={backToSelect}>
+            換單元
+          </Button>
+          <Button variant="outline" size="sm" onClick={restart}>
+            <RotateCcw size={14} className="mr-1" />
+            重來
+          </Button>
+        </div>
       </div>
 
       {/* Progress bar */}
@@ -101,14 +192,14 @@ export default function FlashcardsPage() {
       {/* Card */}
       <div className="flex justify-center pt-4">
         <div
-          className="w-full max-w-md cursor-pointer perspective-1000"
+          className="w-full max-w-md cursor-pointer"
           onClick={() => setFlipped(!flipped)}
         >
-          <Card className="min-h-[280px] flex items-center justify-center transition-all duration-300 hover:shadow-lg">
-            <CardContent className="text-center py-12 px-8 w-full">
+          <Card className="min-h-[260px] sm:min-h-[280px] flex items-center justify-center transition-all duration-300 hover:shadow-lg">
+            <CardContent className="text-center py-10 sm:py-12 px-6 sm:px-8 w-full">
               {!flipped ? (
                 <div className="space-y-3">
-                  <p className="text-4xl font-medium">{currentItem.word}</p>
+                  <p className="text-3xl sm:text-4xl font-medium">{currentItem.word}</p>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -123,7 +214,7 @@ export default function FlashcardsPage() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <p className="text-2xl font-medium">{currentItem.meaning}</p>
+                  <p className="text-xl sm:text-2xl font-medium">{currentItem.meaning}</p>
                   <p className="text-neutral-500">{currentItem.romanization}</p>
                   {currentItem.partOfSpeech && (
                     <p className="text-xs text-neutral-400">{currentItem.partOfSpeech}</p>
@@ -155,25 +246,29 @@ export default function FlashcardsPage() {
       </div>
 
       {/* Actions */}
-      <div className="flex justify-center gap-3 pt-2">
-        <Button variant="outline" onClick={handleNotSure} className="gap-1.5">
+      <div className="flex justify-center gap-2 sm:gap-3 pt-2">
+        <Button variant="outline" onClick={handleNotSure} className="gap-1.5" size="sm">
           <HelpCircle size={16} />
-          不確定
+          <span className="hidden sm:inline">不確定</span>
         </Button>
         <Button
           variant="outline"
-          onClick={() => currentItem && toggleFavorite(currentItem.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (currentItem) toggleFavorite(currentItem.id);
+          }}
           className="gap-1.5"
+          size="sm"
         >
           <Heart
             size={16}
             className={currentItem?.favorite ? "fill-red-400 text-red-400" : ""}
           />
-          收藏
+          <span className="hidden sm:inline">收藏</span>
         </Button>
-        <Button onClick={handleKnow} className="gap-1.5">
+        <Button onClick={handleKnow} className="gap-1.5" size="sm">
           <ThumbsUp size={16} />
-          認識
+          <span className="hidden sm:inline">認識</span>
         </Button>
       </div>
     </div>

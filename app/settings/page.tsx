@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Settings, RotateCcw, Trash2 } from "lucide-react";
-import { seedVocabulary } from "@/data/seedVocabulary";
+import { allVocabulary } from "@/data/vocabulary";
 import { saveVocabulary } from "@/lib/storage/vocabulary";
 import { saveQuizResults } from "@/lib/storage/quiz";
 
@@ -12,7 +12,7 @@ export default function SettingsPage() {
   const [confirmReset, setConfirmReset] = useState<"vocab" | "quiz" | "all" | null>(null);
 
   const handleResetVocabulary = () => {
-    saveVocabulary(seedVocabulary);
+    saveVocabulary(allVocabulary);
     setConfirmReset(null);
     window.location.reload();
   };
@@ -24,7 +24,7 @@ export default function SettingsPage() {
   };
 
   const handleResetAll = () => {
-    saveVocabulary(seedVocabulary);
+    saveVocabulary(allVocabulary);
     saveQuizResults([]);
     setConfirmReset(null);
     window.location.reload();
