@@ -154,8 +154,8 @@ export function VocabularyForm({ initialData, onSubmit, onClose }: Props) {
                       onClick={() => setDifficulty(difficulty === value ? "" : value)}
                       className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
                         difficulty === value
-                          ? "bg-violet-600 text-white"
-                          : "bg-violet-50 text-violet-600 hover:bg-violet-100"
+                          ? "bg-lavender-500 text-white"
+                          : "bg-lavender-50 text-lavender-500 hover:bg-lavender-100"
                       }`}
                     >
                       {label}

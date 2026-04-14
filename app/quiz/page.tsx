@@ -88,8 +88,8 @@ export default function QuizPage() {
                     onClick={() => setQuestionCount(n)}
                     className={`px-4 py-2 rounded-md text-sm transition-colors ${
                       questionCount === n
-                        ? "bg-violet-600 text-white"
-                        : "bg-violet-50 text-violet-600 hover:bg-violet-100"
+                        ? "bg-lavender-500 text-white"
+                        : "bg-lavender-50 text-lavender-500 hover:bg-lavender-100"
                     }`}
                   >
                     {n} 題
@@ -145,9 +145,9 @@ export default function QuizPage() {
       </div>
 
       {/* Progress */}
-      <div className="w-full h-1 bg-violet-100 rounded-full overflow-hidden">
+      <div className="w-full h-1 bg-lavender-100 rounded-full overflow-hidden">
         <div
-          className="h-full bg-violet-600 transition-all duration-300"
+          className="h-full bg-lavender-500 transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
         />
       </div>
